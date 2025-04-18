@@ -35,3 +35,12 @@ openssl pkcs12 -export \
   -certfile "$ca_name" \
   -out "$new_pfx_name"
 ```
+
+## ✅ Result
+You now have an updated PFX file named updated.pfx that includes:
+
+# 🔐 The private key
+
+# 📄 The public certificate
+
+# 🧾 The intermediate certificate (trust chain)
