@@ -11,18 +11,27 @@ openssl pkcs12 -in $pfx_file -nocerts -out private.pem -nodes
 openssl pkcs12 -in $pfx_file -clcerts -nokeys -out public.pem
 ```
 
-## Download cert
+## 🌐 Step 2: Download the Intermediate Certificate
 ```
+# Extract the CA Issuer URL from the certificate
 ca_url=$(openssl x509 -in public.pem -text -noout | grep 'CA Issuers' | awk '{print $4}' | sed 's/URI://g')
+
+# Download the intermediate certificate
 wget $ca_url
 ```
-## Creating the new pfx file
+
+## 🧬 Step 3: Combine into a New PFX File
 ```
-ca_name=$(basename http://certificates.godaddy.com/repository/gdig2.crt)
+# Get the filename of the downloaded certificate
+ca_name=$(basename "$ca_url")
+
+# Define the output file name
 new_pfx_name="updated.pfx"
+
+# Create a new PFX file with the intermediate cert
 openssl pkcs12 -export \
   -inkey private.pem \
   -in public.pem \
-  -certfile $ca_name \
-  -out updated.pfx
+  -certfile "$ca_name" \
+  -out "$new_pfx_name"
 ```
