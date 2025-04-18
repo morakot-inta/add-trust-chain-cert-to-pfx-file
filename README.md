@@ -12,7 +12,7 @@ openssl pkcs12 -in $pfx_file -clcerts -nokeys -out public.pem
 ```
 
 ## 🌐 Step 2: Download the Intermediate Certificate
-```
+```bash
 # Extract the CA Issuer URL from the certificate
 ca_url=$(openssl x509 -in public.pem -text -noout | grep 'CA Issuers' | awk '{print $4}' | sed 's/URI://g')
 
@@ -21,7 +21,7 @@ wget $ca_url
 ```
 
 ## 🧬 Step 3: Combine into a New PFX File
-```
+```bash
 # Get the filename of the downloaded certificate
 ca_name=$(basename "$ca_url")
 
@@ -39,8 +39,8 @@ openssl pkcs12 -export \
 ## ✅ Result
 You now have an updated PFX file named updated.pfx that includes:
 
-# 🔐 The private key
+🔐 The private key
 
-# 📄 The public certificate
+📄 The public certificate
 
-# 🧾 The intermediate certificate (trust chain)
+🧾 The intermediate certificate (trust chain)
